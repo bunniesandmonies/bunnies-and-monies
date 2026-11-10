@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--
+    CHILD SAFETY: this rule tells the browser the game may only use its
+    own files. It blocks ads, trackers, outside links, chat and any
+    connection to the internet, even by accident.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file:; style-src 'self' file: 'unsafe-inline'; img-src 'self' file: data: blob:; media-src 'self' file: data: blob:; connect-src 'self' file: data: blob:; font-src 'self' file:; worker-src 'self' blob:; object-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <!-- Lets it open full-screen when saved to a phone or tablet home screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Bunnies &amp; Monies</title>
+  <style>
+    /* The page around the game: cream background, game centred */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      /* The game fills the space above the grown-ups tip bar */
+      display: flex;
+      flex-direction: column;
+      background: #EBD8BF;
+      overflow: hidden;
+      /* Stop the page wobbling, zooming or selecting text when tapped */
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;   /* no "save image" pop-up on long press */
+    }
+    #game {
+      /* Stay clear of the notch / camera on phones held sideways */
+      margin: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Tip bar for grown-ups, always visible along the bottom.
+       It sits outside the play area, so it never covers anything children tap. */
+    #parent-tip {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+      background: #765039;
+      color: #EBD8BF;
+      border-top: 4px solid #E2BA5F;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: clamp(13px, 1.9vh, 18px);
+      line-height: 1.35;
+      text-align: left;
+      pointer-events: none;   /* just words: nothing to tap */
+    }
+    #parent-tip .label {
+      flex: none;
+      background: #E2BA5F;
+      color: #765039;
+      font-weight: bold;
+      border-radius: 999px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    #parent-tip .privacy {
+      display: block;
+      opacity: 0.8;
+      font-size: 0.85em;
+    }
+  </style>
+</head>
+<body>
+  <!-- The game draws itself inside this box -->
+  <div id="game"></div>
+
+  <!-- Tip for grown-ups: the money lesson on each screen (words in src/parent-tips.js) -->
+  <div id="parent-tip" role="note" aria-live="polite">
+    <span class="label">For grown-ups</span>
+    <span id="parent-tip-text"></span>
+  </div>
+
+  <!-- 1. The Phaser game engine (kept in the lib folder so it works offline) -->
+  <script src="lib/phaser.min.js"></script>
+
+  <!-- 2. Pictures and sounds, packed so double-clicking works -->
+  <script src="assets/images/embedded-images.js"></script>
+  <script src="assets/sounds/embedded-sounds.js"></script>
+
+  <!-- 3. Settings, memory, drawn pictures, sounds, voice and shared pieces -->
+  <script src="src/config.js"></script>
+  <script src="src/state.js"></script>
+  <script src="src/art.js"></script>
+  <script src="src/sounds.js"></script>
+  <script src="src/voice.js"></script>
+  <script src="src/music.js"></script>
+  <script src="src/parent-tips.js"></script>
+  <script src="src/parent-gate.js"></script>
+  <script src="src/ui.js"></script>
+  <script src="src/jar.js"></script>
+  <script src="src/village-art.js"></script>
+  <script src="src/native-app.js"></script>
+
+  <!-- 4. Each screen ("scene") of the game -->
+  <script src="src/scenes/BootScene.js"></script>
+  <script src="src/scenes/TitleScene.js"></script>
+  <script src="src/scenes/VillageScene.js"></script>
+  <script src="src/scenes/JarsScene.js"></script>
+  <script src="src/scenes/ShopScene.js"></script>
+  <script src="src/scenes/GiveScene.js"></script>
+  <script src="src/scenes/SaveScene.js"></script>
+  <script src="src/scenes/TutorialScene.js"></script>
+  <script src="src/scenes/FinishScene.js"></script>
+
+  <!-- 5. Start the game (always load this last) -->
+  <script src="src/main.js"></script>
+</body>
+</html>
